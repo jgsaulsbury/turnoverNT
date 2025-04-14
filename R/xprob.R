@@ -1,7 +1,7 @@
 #xprob gives the probability of a sampled community transition under some ratio of t and J
 #takes two vectors of relative abundance m and n
 #takes a value t/J for the ratio of t (# generations) to J (community size)
-#ss is a vector of length 2 giving the number of samples at times for m and n
+#ss is a vector of length 2 giving the number of samples at times for m & n
 #conditional probability for multiple binomial draws is:
 # P(n[i]) = B(N = J - m[1:i-1], p = m[i]/(J-m[1:i-1]))
 xprob <- function(m,n,tJ,ss=NA){
