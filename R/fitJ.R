@@ -25,10 +25,12 @@
 fitJ <- function(occs,ages,sampled=TRUE,generationtime=1,CI=FALSE,searchinterval=c(1,9)){
   #error handling
   if(dim(occs)[1] != length(ages)){stop("'ages' must have length equal to the number of rows of 'occs'")}
-  op <- optimize(xxprob,interval=c(searchinterval[1],searchinterval[2]),occs=occs,ages=ages,sampled=sampled,generationtime=generationtime,maximum=TRUE)
+  op <- stats::optimize(xxprob,interval=c(searchinterval[1],searchinterval[2]),occs=occs,ages=ages,sampled=sampled,generationtime=generationtime,maximum=TRUE)
   out <- list("loglik"=op$objective,"J"=10^op$maximum)
   if(CI){
-    left <- optimize(CIfunc,interval=c(searchinterval[1],log10(out$J)),occs=occs,ages=ages,ML=out$loglik,sampled=sampled,generationtime=generationtime,maximum=FALSE)$minimum
-    right <- optimize(CIfunc,interval=c(log10(out$J),searchinterval[2]),occs=occs,ages=ages,ML=out$loglik,sampled=sampled,generationtime=generationtime,maximum=FALSE)$minimum
+    left <- stats::optimize(CIfunc,interval=c(searchinterval[1],log10(out$J)),occs=occs,ages=ages,ML=out$loglik,
+                            sampled=sampled,generationtime=generationtime,maximum=FALSE)$minimum
+    right <- stats::optimize(CIfunc,interval=c(log10(out$J),searchinterval[2]),occs=occs,ages=ages,ML=out$loglik,
+                             sampled=sampled,generationtime=generationtime,maximum=FALSE)$minimum
     out$CI <- 10^c(left,right)}
   return(out)}

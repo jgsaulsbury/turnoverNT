@@ -4,7 +4,14 @@
 \alias{fitJ}
 \title{Find the maximum-likelihood value of J for a community change dataset}
 \usage{
-fitJ(occs, ages, sampled = TRUE, generationtime = 1, CI = FALSE)
+fitJ(
+  occs,
+  ages,
+  sampled = TRUE,
+  generationtime = 1,
+  CI = FALSE,
+  searchinterval = c(1, 9)
+)
 }
 \arguments{
 \item{occs}{matrix of the number of observations in each species at each time.
@@ -21,6 +28,8 @@ community (TRUE) or instead represents true species abundances (FALSE).}
 
 \item{CI}{boolean indicating whether or not to calculate a confidence interval
 on the maximum-likelihood estimate of J.}
+
+\item{searchinterval}{consider values of log10J within this interval.}
 }
 \value{
 a list containing "loglik", "J", and (optionally) "CI"

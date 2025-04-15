@@ -18,6 +18,6 @@
 #'
 #' @returns the value of the function at the given logJ.
 CIfunc <- function(log10J,occs,ages,ML,confidence=0.95,sampled=TRUE,generationtime=1){
-  diff <- qchisq(p=confidence,d=1)/2
+  diff <- stats::qchisq(p=confidence,d=1)/2
   out <- xxprob(log10J,occs,ages,sampled,generationtime)
   return(abs(ML-diff-out))}
