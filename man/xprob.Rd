@@ -4,14 +4,14 @@
 \alias{xprob}
 \title{Probability of a single transition under neutral theory}
 \usage{
-xprob(m, n, tJ, ss = NA)
+xprob(m, n, Jt, ss = NA)
 }
 \arguments{
 \item{m}{vector of relative abundances at start of transition.}
 
 \item{n}{vector of relative abundances at end of transition.}
 
-\item{tJ}{ratio of t (# generations) to J (community size).}
+\item{Jt}{ratio of J (community size) to t (# generations).}
 
 \item{ss}{vector of length 2 giving number of samples at times for m and n.}
 }
@@ -20,8 +20,8 @@ loglik value.
 }
 \description{
 Gives the probability of a single observed transition in community compositions
-under Hubbell's neutral theory, for a given ratio of t (# generations) to J
-(community size)
+under Hubbell's neutral theory, for a given ratio of J (community size) to
+t (# generations).
 }
 \details{
 Used by xxprob. Sums of m and n must each be in the interval (0,1]. Allows
@@ -29,6 +29,6 @@ for incomplete sampling; if nothing is given for ss, assumes m and n represent
 true relative abundances.
 }
 \examples{
-xprob(m=c(0.1,0.1,0.8),n=c(0.2,0.3,0.5),tJ=0.1,ss=c(1000,1000))
+xprob(m=c(0.1,0.1,0.8),n=c(0.2,0.3,0.5),Jt=10,ss=c(1000,1000))
 
 }
