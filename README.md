@@ -21,7 +21,8 @@ devtools::install_github("jgsaulsbury/turnoverNT")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Calculating the likelihood of a single observed transition in relative
+abundances:
 
 ``` r
 library(turnoverNT)
