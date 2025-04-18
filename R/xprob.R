@@ -25,7 +25,8 @@
 #'
 xprob <- function(m,n,Jt,ss=NA){
   #error handling
-  if(sum(m)<=0|sum(n)<=0|sum(m)>1|sum(n)>1){
+  tol <- 1E-7
+  if(sum(m)<=0|sum(n)<=0|sum(m)>1+tol|sum(n)>1+tol){
     stop("Sums of m and n must each be greater than 0 and no greater than 1")}
   if(length(m)!=length(n)){stop("m and n must have the same length")}
   if(!Jt>0){stop("Jt must be positive")}
