@@ -32,6 +32,7 @@ tslength <- 5000 #run for 5000 timesteps
 every <- 200 #sample every 200 timesteps...
 ss <- 1000 #...and sample 1,000 individuals (with replacement) when you do
 ages <- seq(0,tslength,every)
+set.seed(1)
 X <- simNT(startingabs=rep(J/nsp,nsp),ts=ages,ss=1000)
 plot_spindles(X$simulation,X$times)
 ```
@@ -43,11 +44,11 @@ Find the best-fit J for this simulated timeseries:
 ``` r
 fitJ(occs=X$simulation,ages=X$times,CI=TRUE)
 #> $loglik
-#> [1] 523.34
+#> [1] 513.0276
 #> 
 #> $J
-#> [1] 47489.84
+#> [1] 42415.75
 #> 
 #> $CI
-#> [1] 35979.38 63191.87
+#> [1] 32343.11 55906.94
 ```
