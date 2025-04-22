@@ -13,7 +13,8 @@ xprob(m, n, Jt, ss = NA)
 
 \item{Jt}{ratio of J (community size) to t (# generations).}
 
-\item{ss}{vector of length 2 giving number of samples at times for m and n.}
+\item{ss}{single value or vector of length 2 giving number of samples at
+times for m and n. If a single value given, assumes it applies to both m and n.}
 }
 \value{
 loglik value.
@@ -29,6 +30,6 @@ for incomplete sampling; if nothing is given for ss, assumes m and n represent
 true relative abundances.
 }
 \examples{
-xprob(m=c(0.1,0.1,0.8),n=c(0.2,0.3,0.5),Jt=10,ss=c(1000,1000))
+xprob(m=c(0.1,0.1,0.8),n=c(0.2,0.3,0.5),Jt=10,ss=c(1000,1000)) #-0.01480662
 
 }
