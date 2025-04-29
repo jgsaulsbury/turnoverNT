@@ -20,7 +20,7 @@ times for m and n. If a single value given, assumes it applies to both m and n.}
 loglik value.
 }
 \description{
-Gives the probability of a single observed transition in community compositions
+Gives the log-likelihood of a single observed transition in community compositions
 under Hubbell's neutral theory, for a given ratio of J (community size) to
 t (# generations).
 }
