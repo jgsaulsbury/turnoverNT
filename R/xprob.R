@@ -46,7 +46,7 @@ xprob <- function(m,n,Jt,ss=NA){
     n <- n[-length(n)]}
   m <- m[!n==0];n <- n[!n==0] #remove indices where n is zero (zeros in m removed in previous step)
   n <- n*size + 0.5 #moving onto scale of cbinom
-  out <- cbinom::dcbinom(x=n[1],size=size,prob=m[1],log=T)+log(size+1) #for taxon 1 (multiplied to make sense for prob densities)
+  out <- cbinom::dcbinom(x=n[1],size=size,prob=m[1],log=T)+log(size) #for taxon 1 (multiplied to make sense for prob densities)
   for(i in seq_len(length(m))[-1]){ #for every other taxon i
-      out <- out + dcbinom(x=n[i],size=size-sum(n[1:i-1]-0.5),prob=m[i]/(1-sum(m[1:i-1])),log=T)+log(size+1)}
+      out <- out + dcbinom(x=n[i],size=size-sum(n[1:i-1]-0.5),prob=m[i]/(1-sum(m[1:i-1])),log=T)+log(size)}
   return(out)}
