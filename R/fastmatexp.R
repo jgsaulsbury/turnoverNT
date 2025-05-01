@@ -7,7 +7,7 @@ fastmatexp <- function(mat,n){
   } else if(n==1) {
     return(mat)
   } else if(n %% 2 == 0){ #else if n is even
-    return(fastexp(mat %*% mat,n/2))
+    return(fastmatexp(mat %*% mat,n/2))
   }else{ #else if n is odd
-    return(mat %*% fastexp(mat %*% mat,(n-1)/2))
+    return(mat %*% fastmatexp(mat %*% mat,(n-1)/2))
   }}
