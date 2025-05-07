@@ -4,6 +4,11 @@
 #' Uses optim() to fit the J parameter in Hubbell's neutral theory to a dataset.
 #' Optionally, outputs a confidence interval.
 #'
+#' @details
+#' optimize() sometimes tests J values which are so unlikely as to return -Inf.
+#' This is fine, and suppressWarnings() just keeps this quiet.
+#'
+#'
 #' @param occs matrix of the number of observations in each species at each time.
 #' One column for each species, one row for each time slice. Time goes from oldest
 #' at the bottom to youngest at the top.
@@ -23,9 +28,8 @@
 #' mat <- matrix(data=c(52,12,160,109,30,401,93,31,355),nrow=3)
 #' fitJ(occs=mat,ages=c(200,100,0),CI=TRUE)
 fitJ <- function(occs,ages,sampled=TRUE,generationtime=1,CI=FALSE,searchinterval=c(1,9)){
-  #error handling
   if(dim(occs)[1] != length(ages)){stop("'ages' must have length equal to the number of rows of 'occs'")}
-  op <- stats::optimize(xxprob,interval=c(searchinterval[1],searchinterval[2]),occs=occs,ages=ages,sampled=sampled,generationtime=generationtime,maximum=TRUE)
+  op <- suppressWarnings(stats::optimize(xxprob,interval=c(searchinterval[1],searchinterval[2]),occs=occs,ages=ages,sampled=sampled,generationtime=generationtime,maximum=TRUE))
   out <- list("loglik"=op$objective,"J"=10^op$maximum)
   if(CI){
     left <- stats::optimize(CIfunc,interval=c(searchinterval[1],log10(out$J)),occs=occs,ages=ages,ML=out$loglik,
