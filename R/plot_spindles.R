@@ -42,7 +42,7 @@ plot_spindles <- function(occs,ages,plot.ss=TRUE,linesevery=NA){
     graphics::par(las=0)}
   graphics::box()
   if(!is.na(linesevery)){#horizontal lines depicting time
-    for(t in seq(0,max(ages),linesevery)){
+    for(t in seq(0,max(ages)+linesevery,linesevery)){
       graphics::lines(c(-1,dim(occs)[2]+1),c(t,t),col="grey90")}}
   for(i in seq(length(peak.relabs))){ #for every sp
     x <- ifelse(i==1,peak.relabs[i]/2,sum(utils::head(peak.relabs,i-1))+peak.relabs[i]/2 + buffer*(i-1))
