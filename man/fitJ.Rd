@@ -38,6 +38,10 @@ a list containing "loglik", "J", and (optionally) "CI"
 Uses optim() to fit the J parameter in Hubbell's neutral theory to a dataset.
 Optionally, outputs a confidence interval.
 }
+\details{
+optimize() sometimes tests J values which are so unlikely as to return -Inf.
+This is fine, and suppressWarnings() just keeps this quiet.
+}
 \examples{
 mat <- matrix(data=c(52,12,160,109,30,401,93,31,355),nrow=3)
 fitJ(occs=mat,ages=c(200,100,0),CI=TRUE)
