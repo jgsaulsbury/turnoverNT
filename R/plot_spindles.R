@@ -34,7 +34,7 @@ plot_spindles <- function(occs,ages,plot.ss=TRUE,linesevery=NA){
   occs.prop <-  occs/ss
   occs.prop <- occs.prop[,rev(order(apply(occs.prop,MARGIN=2,FUN=max)))] #resort occs.prop by peak relab
   peak.relabs <- apply(occs.prop, MARGIN=2, FUN=max) #stores peak relab of each sp
-  plot(1,type='n',xlim=c(0,sum(peak.relabs)+buffer*(length(peak.relabs)-1)),ylim=c(max(ages),min(ages)),xaxt='n',ylab="Age, years",xlab="")
+  plot(1,type='n',xlim=c(0,sum(peak.relabs)+buffer*(length(peak.relabs)-1)),ylim=c(max(ages),min(ages)),xaxt='n',ylab="Age, years",xlab="",...)
   if(plot.ss){
     graphics::mtext("Samples:",cex=0.7,line=0,adj=1.03,col='grey')
     graphics::par(las=2)
