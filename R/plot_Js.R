@@ -28,7 +28,7 @@
 #' ages <- seq(0,tslength,every)
 #' timeseries <- simNT(startingabs=rep(J/nsp,nsp),ts=ages,ss=100000)
 #' plot_Js(timeseries$simulation,timeseries$times,linesevery = 100)
-plot_Js <- function(occs,ages,xlim=NA,linesevery=NA,generationtime=1,searchinterval=c(1,9),...){
+plot_Js <- function(occs,ages,xlim=NULL,linesevery=NA,generationtime=1,searchinterval=c(1,9),...){
   if(is.list(occs)){
     occs <- as.matrix(occs)}
   xages <- (head(ages,-1) + tail(ages,-1))/2 #midpoint of each transition
@@ -41,7 +41,7 @@ plot_Js <- function(occs,ages,xlim=NA,linesevery=NA,generationtime=1,searchinter
     Jhats <- c(Jhats,fit$J)
     JLBs <- c(JLBs,fit$CI[1])
     JUBs <- c(JUBs,fit$CI[2])}
-  if(is.na(xlim)){
+  if(is.null(xlim)){
     xlim <- c(min(1/JUBs),max(1/JLBs))}
   if(xlim[1]>xlim[2]){xlim <- rev(xlim)}
   plot(1,type="n",xlim=xlim,ylim=c(max(ages),min(ages)),log='x',xlab="1/J",ylab="Age, years",xaxt='n',...)
