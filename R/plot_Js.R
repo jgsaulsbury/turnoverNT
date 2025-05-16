@@ -29,6 +29,8 @@
 #' timeseries <- simNT(startingabs=rep(J/nsp,nsp),ts=ages,ss=100000)
 #' plot_Js(timeseries$simulation,timeseries$times,linesevery = 100)
 plot_Js <- function(occs,ages,xlim=NA,linesevery=NA,generationtime=1,searchinterval=c(1,9),...){
+  if(is.list(occs)){
+    occs <- as.matrix(occs)}
   xages <- (head(ages,-1) + tail(ages,-1))/2 #midpoint of each transition
   Jhats <- c() #store ML values for each transition, oldest to youngest
   JLBs <- c() #lower bounds on J
