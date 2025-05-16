@@ -1,0 +1,58 @@
+#' Plot fitted J values for every transition in a single timeseries
+#'
+#' @description
+#' Use to visualize how the rate of turnover changes across a community change
+#' timeseries.
+#'
+#'
+#' @param occs matrix of the number of observations in each species at each time.
+#' One column for each species, one row for each time slice. Time goes from oldest
+#' at the bottom to youngest at the top.
+#' @param ages vector containing the ages of each time slice, in years, from
+#' oldest to youngest.
+#' @param xlim vector of length 2 giving the left and right bounds of the x axis.
+#' @param linesevery value indicating the interval at which to draw horizontal gridlines.
+#' Default is NA (don't draw them).
+#' @param generationtime passed to fitJ().
+#' @param searchinterval passed to fitJ()
+#' @param ... additional plotting parameters passed to plot().
+#'
+#' @returns plots rate through time.
+#' @export
+#'
+#' @examples
+#' J <- 10000
+#' tslength <- 500
+#' every <- 5
+#' nsp <- 8
+#' ages <- seq(0,tslength,every)
+#' timeseries <- simNT(startingabs=rep(J/nsp,nsp),ts=ages,ss=100000)
+#' plot_Js(timeseries$simulation,timeseries$times,linesevery = 100)
+plot_Js <- function(occs,ages,xlim=NA,linesevery=NA,generationtime=1,searchinterval=c(1,9),...){
+  xages <- (head(ages,-1) + tail(ages,-1))/2 #midpoint of each transition
+  Jhats <- c() #store ML values for each transition, oldest to youngest
+  JLBs <- c() #lower bounds on J
+  JUBs <- c() #upper bounds on J
+  for(i in seq(length(ages)-1)){ #for every transition
+    transition <- occs[(length(ages)-i):(length(ages)-i+1),]
+    fit <- fitJ(occs=transition,ages=ages[i:(i+1)],sampled=TRUE,generationtime=generationtime,CI=TRUE,searchinterval=searchinterval)
+    Jhats <- c(Jhats,fit$J)
+    JLBs <- c(JLBs,fit$CI[1])
+    JUBs <- c(JUBs,fit$CI[2])}
+  if(is.na(xlim)){
+    xlim <- c(min(1/JUBs),max(1/JLBs))}
+  if(xlim[1]>xlim[2]){xlim <- rev(xlim)}
+  plot(1,type="n",xlim=xlim,ylim=c(max(ages),min(ages)),log='x',xlab="1/J",ylab="Age, years",xaxt='n',...)
+  if(!is.na(linesevery)){#horizontal lines depicting time
+    for(t in seq(0,max(ages)+linesevery,linesevery)){
+      graphics::lines(c(xlim[1],xlim[2]),c(t,t),col="grey90")}}
+  points(1/Jhats,xages)
+  for(i in seq(length(xages))){ #for every transition
+    graphics::lines(c(1/JLBs[i],1/JUBs[i]),c(xages[i],xages[i]))}
+  axis(side=1,at=10^seq(floor(log10(xlim[1])),ceiling(log10(xlim[2])))) #tick marks
+  #axis(side=1,at=c(seq(1E3,1E4,1E3),seq(1E4,1E5,1E4),seq(1E5,1E6,1E5)),labels = FALSE,tck=-0.01)
+  for(i in seq(floor(log10(xlim[1])),floor(log10(xlim[2])))){
+    axis(side=1,at=c(seq(10^i,10^(i+1),10^i)),labels = FALSE,tck=-0.01)
+  }
+
+}
