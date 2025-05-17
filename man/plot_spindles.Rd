@@ -4,7 +4,7 @@
 \alias{plot_spindles}
 \title{Plots a set of abundance trajectories as spindles}
 \usage{
-plot_spindles(occs, ages, plot.ss = TRUE, linesevery = NA)
+plot_spindles(occs, ages, plot.ss = TRUE, linesevery = NA, ...)
 }
 \arguments{
 \item{occs}{matrix of the number of observations in each species at each time.

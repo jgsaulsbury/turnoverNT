@@ -7,8 +7,9 @@
 plot_Js(
   occs,
   ages,
-  xlim = NA,
+  xlim = NULL,
   linesevery = NA,
+  sampled = TRUE,
   generationtime = 1,
   searchinterval = c(1, 9),
   ...
@@ -41,11 +42,20 @@ Use to visualize how the rate of turnover changes across a community change
 timeseries.
 }
 \examples{
-J <- 10000
+#simulate a timeseries with an increase in J halfway through
+J1 <- 1000 #first half of TS
+J2 <- 10000 #second half of TS
 tslength <- 500
 every <- 5
 nsp <- 8
+ss <- 1000000
 ages <- seq(0,tslength,every)
-timeseries <- simNT(startingabs=rep(J/nsp,nsp),ts=ages,ss=100000)
-plot_Js(timeseries$simulation,timeseries$times,linesevery = 100)
+timeseries1 <- simNT(startingabs=rep(J1/nsp,nsp),ts=ages[1:(length(ages)/2 + 1)],ss=ss)$simulation #first half
+timeseries2 <- simNT(startingabs=timeseries1[1,]*J2/ss,ts=ages[1:(length(ages)/2 + 1)],ss=ss)$simulation #second half
+timeseries <- rbind(timeseries2,timeseries1[-1,])
+par(mfrow=c(1,2))
+plot_spindles(timeseries,ages)
+lines(c(-1,10),c(tslength/2,tslength/2),lty='dashed',lwd=2) #plot point where J switches
+plot_Js(timeseries,ages) #fit rate through time
+lines(c(1E-10,1E-1),c(tslength/2,tslength/2),lty='dashed',lwd=2)
 }
