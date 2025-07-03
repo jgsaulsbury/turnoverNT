@@ -29,7 +29,7 @@
 #' mat <- matrix(data=c(52,12,160,109,30,401,93,31,355),nrow=3)
 #' xxprob(log10J=5,occs=mat,ages=c(200,100,0))
 xxprob <- function(log10J,occs,ages,sampled=TRUE,generationtime=1){
-  if(!is.list(occs)){ #if there's just one timeseries
+  if(!is.list(ages)){ #if there's just one timeseries
     occs <- list(occs) #make it the only member of a list
     ages <- list(ages)} #and do the same to ages
   if(length(occs)!=length(ages)){stop("number of occurrence matrices and ages vectors do not match")}
