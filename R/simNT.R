@@ -33,7 +33,7 @@
 simNT <- function(startingabs,ts,ss=NA,m=0,metacommunity=NA){
   J <- sum(startingabs)
   ts <- ts-min(ts) #in case ts doesn't start at 0
-  if(m>0 & is.na(metacommunity)){ #if no metacommunity provided...
+  if(m>0 & any(is.na(metacommunity))){ #if no metacommunity provided...
     metacommunity <- startingabs/J} #use the starting abundances
   out <- list("simulation"=matrix(NA,ncol=length(startingabs),nrow=length(ts)),"times"=ts)
   colnames(out$simulation) <- paste("Species",seq(length(startingabs))) #give species names
