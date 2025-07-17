@@ -26,6 +26,13 @@
 #' @returns loglik value.
 #' @export
 #'
+#' @examples
+#' xprobm(n1=c(0.1,0.1,0.8),n2=c(0.3,0.3,0.4),nmeta=c(0.4,0.4,0.2),J=1000,t=20,m=0.05,ss=10000) #4.494708
+#' # shorter timescale:
+#' xprobm(n1=c(0.1,0.1,0.8),n2=c(0.3,0.3,0.4),nmeta=c(0.4,0.4,0.2),J=1000,t=10,m=0.05,ss=10000) #-2.949927
+#' #smaller sample size:
+#' xprobm(n1=c(0.1,0.1,0.8),n2=c(0.3,0.3,0.4),nmeta=c(0.4,0.4,0.2),J=1000,t=10,m=0.05,ss=100) #1.501469
+#'
 xprobm <- function(n1,n2,nmeta,J,t,m,ss=NA){
   #error handling
   tol <- 1E-7
@@ -46,18 +53,20 @@ xprobm <- function(n1,n2,nmeta,J,t,m,ss=NA){
     n2 <- n2[-length(n2)]
     nmeta <- nmeta[-length(nmeta)]}
   n1 <- n1[!n2==0];n2 <- n2[!n2==0];nmeta <- nmeta[!nmeta==0] #remove indices where n2 is zero (zeros in n1 removed in previous step)
-  #prepping size with migration
+  #prep migration
   weight.local <- (1-m)**t
+  prob <- n1*weight.local + nmeta*(1-weight.local)
   size <- J/t*weight.local + J*(1-(1-m)**2)
+  #incorporate sample size
+  if(!any(is.na(ss))){ #if ss given...
+    if(length(ss)==1){ss <- rep(ss,2)} #duplicate if a single value given
+    sizes <- c(ss,size)
+    size <- min(sizes) / sum(min(sizes)/sizes)}
   n2 <- n2*size + 0.5 #moving onto scale of cbinom
-  print(paste("n1:",n1,"n2:",n2,"nmeta:",nmeta))
-  print(paste("weight.local:",weight.local))
   #start with species 1
-  prob <- n1[1]*weight.local + nmeta[1]*(1-weight.local)
-  print(paste("prob:",prob,"size:",size))
   out <- ifelse(length(n1)==0,0,
-    cbinom::dcbinom(x=n2[1],size=size,prob=prob,log=T)+log(size)) #for taxon 1
+    cbinom::dcbinom(x=n2[1],size=size,prob=prob[1],log=T)+log(size)) #for taxon 1
   for(i in seq_len(length(n1))[-1]){ #for every other taxon i
-    out <- out + dcbinom(x=n2[i],size=size-sum(n2[1:i-1]-0.5),prob=n1[i]/(1-sum(n1[1:i-1])),log=T)+log(size)
+    out <- out + dcbinom(x=n2[i],size=size-sum(n2[1:i-1]-0.5),prob=prob[i]/(1-sum(prob[1:i-1])),log=T)+log(size)
     }
   return(out)}
