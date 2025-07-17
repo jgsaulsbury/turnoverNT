@@ -2,34 +2,34 @@
 % Please edit documentation in R/xprob.R
 \name{xprob}
 \alias{xprob}
-\title{Probability of a single transition under neutral theory}
+\title{Probability of a single transition under neutral theory without migration}
 \usage{
-xprob(m, n, Jt, ss = NA)
+xprob(n1, n2, Jt, ss = NA)
 }
 \arguments{
-\item{m}{vector of relative abundances at start of transition.}
+\item{n1}{vector of relative abundances at start of transition.}
 
-\item{n}{vector of relative abundances at end of transition.}
+\item{n2}{vector of relative abundances at end of transition.}
 
 \item{Jt}{ratio of J (community size) to t (# generations).}
 
 \item{ss}{single value or vector of length 2 giving number of samples at
-times for m and n. If a single value given, assumes it applies to both m and n.}
+times for n1 and n2. If a single value given, assumes it applies to both n1 and n2.}
 }
 \value{
 loglik value.
 }
 \description{
-Gives the log-likelihood of a single observed transition in community compositions
+Gives the log-likelihood of a single observed transition in community composition
 under Hubbell's neutral theory, for a given ratio of J (community size) to
 t (# generations).
 }
 \details{
-Used by xxprob. Sums of m and n must each be in the interval (0,1]. Allows
-for incomplete sampling; if nothing is given for ss, assumes m and n represent
+Used by xxprob. Sums of n1 and n2 must each be in the interval (0,1]. Allows
+for incomplete sampling; if nothing is given for ss, assumes n1 and n2 represent
 true relative abundances.
 }
 \examples{
-xprob(m=c(0.1,0.1,0.8),n=c(0.2,0.3,0.5),Jt=10,ss=c(1000,1000)) #-0.01480662
+xprob(n1=c(0.1,0.1,0.8),n2=c(0.2,0.3,0.5),Jt=10,ss=c(1000,1000)) #-0.20906
 
 }
