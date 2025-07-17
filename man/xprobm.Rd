@@ -27,7 +27,6 @@ times for n1 and n2. If a single value given, assumes it applies to both n1 and 
 loglik value.
 }
 \description{
-#' @description
 Gives the log-likelihood of a single observed transition in community composition
 under Hubbell's neutral theory, for a given ratio of J (community size) to
 t (# generations) and a given migration rate m from a given metacommunity.

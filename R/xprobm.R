@@ -1,6 +1,6 @@
 #' Probability of a single transition under neutral theory with migration
 #'
-#'#' @description
+#' @description
 #' Gives the log-likelihood of a single observed transition in community composition
 #' under Hubbell's neutral theory, for a given ratio of J (community size) to
 #' t (# generations) and a given migration rate m from a given metacommunity.
