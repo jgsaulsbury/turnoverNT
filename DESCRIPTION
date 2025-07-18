@@ -1,5 +1,5 @@
-Package: turnoverNT
-Title: Modeling change in fossil communities with Hubbell's neutral theory
+Package: ecoDrift
+Title: Modeling change in community composition with Hubbell's neutral theory
 Version: 0.0.0.9000
 Authors@R: 
     person("James", "Saulsbury", , "jgsaulsbury@gmail.com", role = c("aut", "cre"))

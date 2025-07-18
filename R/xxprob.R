@@ -44,6 +44,6 @@ xxprob <- function(log10J,occs,ages,sampled=TRUE,generationtime=1){
       t = abs(age[i+1]-age[i])/generationtime
       #optimize over exp(logJ)
       loglik <- loglik + ifelse(sampled,
-                                xprob(m=as.numeric(occs.prop[i+1,]),n=as.numeric(occs.prop[i,]),Jt=(10^log10J)/t,ss=c(ss[i+1],ss[i])),
-                                xprob(m=as.numeric(occs.prop[i+1,]),n=as.numeric(occs.prop[i,]),Jt=(10^log10J)/t,ss=NA))}}
+                                xprob(n1=as.numeric(occs.prop[i+1,]),n2=as.numeric(occs.prop[i,]),Jt=(10^log10J)/t,ss=c(ss[i+1],ss[i])),
+                                xprob(n1=as.numeric(occs.prop[i+1,]),n2=as.numeric(occs.prop[i,]),Jt=(10^log10J)/t,ss=NA))}}
   return(loglik)}

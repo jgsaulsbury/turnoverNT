@@ -1,22 +1,23 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# turnoverNT
+# ecoDrift
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
-Contains functions for modeling change in fossil communities with
+Contains functions for modeling change in community composition with
 Hubbell’s neutral theory.
 
 ## Installation
 
-You can install the development version of turnoverNT from
+You can install the development version of ecoDrift from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jgsaulsbury/turnoverNT")
+devtools::install_github("jgsaulsbury/ecoDrift")
 ```
 
 ## Example
@@ -25,7 +26,7 @@ Simulate and visualize a timeseries under neutral theory with incomplete
 sampling:
 
 ``` r
-library(turnoverNT)
+library(ecoDrift)
 J <- 50000 #50,000 individuals
 nsp <- 10 #10 species
 tslength <- 5000 #run for 5000 timesteps
@@ -44,11 +45,11 @@ Find the best-fit J for this simulated timeseries:
 ``` r
 fitJ(occs=X$simulation,ages=X$times,CI=TRUE)
 #> $loglik
-#> [1] 513.0276
+#> [1] 499.2732
 #> 
 #> $J
-#> [1] 42415.75
+#> [1] 42983.42
 #> 
 #> $CI
-#> [1] 32343.11 55906.94
+#> [1] 32696.11 56838.25
 ```

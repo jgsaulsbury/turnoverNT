@@ -13,27 +13,27 @@ knitr::opts_chunk$set(
 )
 ```
 
-# turnoverNT
+# ecoDrift
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-Contains functions for modeling change in fossil communities with Hubbell's neutral theory.
+Contains functions for modeling change in community composition with Hubbell's neutral theory.
 
 ## Installation
 
-You can install the development version of turnoverNT from [GitHub](https://github.com/) with:
+You can install the development version of ecoDrift from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("jgsaulsbury/turnoverNT")
+devtools::install_github("jgsaulsbury/ecoDrift")
 ```
 
 ## Example
 
 Simulate and visualize a timeseries under neutral theory with incomplete sampling:
 ```{r}
-library(turnoverNT)
+library(ecoDrift)
 J <- 50000 #50,000 individuals
 nsp <- 10 #10 species
 tslength <- 5000 #run for 5000 timesteps
