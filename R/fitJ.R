@@ -1,7 +1,7 @@
 #' Find the maximum-likelihood value of J for a community change dataset
 #'
 #' @description
-#' Uses optim() to fit the J parameter in Hubbell's neutral theory to a dataset.
+#' Uses optimize() to fit the J parameter in Hubbell's neutral theory to a dataset.
 #' Optionally, outputs a confidence interval.
 #'
 #' @details
@@ -18,7 +18,7 @@
 #' community (TRUE) or instead represents true species abundances (FALSE).
 #' @param generationtime time between generations, in years.
 #' @param CI boolean indicating whether or not to calculate a confidence interval
-#' on the maximum-likelihood estimate of J.
+#' on the maximum-likelihood estimate of J. Uses function CIfunc_J.
 #' @param searchinterval consider values of log10J within this interval.
 #'
 #' @returns a list containing "loglik", "J", and (optionally) "CI"
@@ -32,9 +32,9 @@ fitJ <- function(occs,ages,sampled=TRUE,generationtime=1,CI=FALSE,searchinterval
   op <- suppressWarnings(stats::optimize(xxprob,interval=c(searchinterval[1],searchinterval[2]),occs=occs,ages=ages,sampled=sampled,generationtime=generationtime,maximum=TRUE))
   out <- list("loglik"=op$objective,"J"=10^op$maximum)
   if(CI){
-    left <- stats::optimize(CIfunc,interval=c(searchinterval[1],log10(out$J)),occs=occs,ages=ages,ML=out$loglik,
+    left <- stats::optimize(CIfunc_J,interval=c(searchinterval[1],log10(out$J)),occs=occs,ages=ages,ML=out$loglik,
                             sampled=sampled,generationtime=generationtime,maximum=FALSE)$minimum
-    right <- stats::optimize(CIfunc,interval=c(log10(out$J),searchinterval[2]),occs=occs,ages=ages,ML=out$loglik,
+    right <- stats::optimize(CIfunc_J,interval=c(log10(out$J),searchinterval[2]),occs=occs,ages=ages,ML=out$loglik,
                              sampled=sampled,generationtime=generationtime,maximum=FALSE)$minimum
     out$CI <- 10^c(left,right)}
   return(out)}

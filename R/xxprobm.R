@@ -12,7 +12,9 @@
 #' time slice, the function needs to be given a generation time to know how many
 #' generations separate each adjacent pair of time slices. Default is 1 year.
 #'
-#' @param log10J log J (community size). Easier for fitJ() to optimize in log space.
+#' @param log10Jm a 2-length vector containing log10 J (community size) and log10 m
+#' (migration rate). Easier for fitJm() to optimize in log space. optim() wants a
+#' single vector of params.
 #' @param occs matrix of the number of observations in each species at each time.
 #' One column for each species, one row for each time slice. Time goes from oldest
 #' at the bottom to youngest at the top.
@@ -26,9 +28,16 @@
 #' @export
 #'
 #' @examples
-#' mat <- matrix(data=c(52,12,160,109,30,401,93,31,355),nrow=3)
-#' xxprob(log10J=5,occs=mat,ages=c(200,100,0))
-xxprob <- function(log10J,occs,ages,sampled=TRUE,generationtime=1){
+#' library(comprehenr)
+#' set.seed(10)
+#' sim <- simNT(c(1000,1000,1000,1000),ts=seq(0,2000,50),m=0.005,ss=10000) #simulate under neutral theory with migration
+#' par(mfrow=c(1,2))
+#' plot_spindles(occs=sim$simulation,ages=sim$times,plot.ss=FALSE)
+#' #plot likelihood surface for migration rate
+#' ms <- seq(-7,-1,0.1) #get likelihood for these values of m
+#' plot(10**ms,comprehenr::to_vec(for(i in ms) xxprobm(log10Jm = c(log10(4000),i),occs=sim$simulation,ages=sim$times,sampled=TRUE)),ylim=c(100,300),xlab="m",ylab="loglik",type='l',log='x')
+#' lines(c(0.005,0.005),c(0,400),lty='dashed') #true m
+xxprobm <- function(log10Jm,occs,ages,sampled=TRUE,generationtime=1){
   if(!is.list(ages)){ #if there's just one timeseries
     occs <- list(occs) #make it the only member of a list
     ages <- list(ages)} #and do the same to ages
@@ -40,9 +49,10 @@ xxprob <- function(log10J,occs,ages,sampled=TRUE,generationtime=1){
     if(dim(occ)[1] != length(age)){stop(paste("age vector",i,"does not match number of rows in occurrence matrix",i))}
     ss <- rowSums(occ)
     occs.prop <-  occ/ss #from occurrences to proportional abundance
+    nmeta <- colMeans(occs.prop) #average local abundance as a guess of metacommunity abundance
     for(i in rev(seq(dim(occ)[1]-1))){ #for every transition (from oldest to youngest)
       t = abs(age[i+1]-age[i])/generationtime
       loglik <- loglik + ifelse(sampled,
-                                xprob(n1=as.numeric(occs.prop[i+1,]),n2=as.numeric(occs.prop[i,]),Jt=(10^log10J)/t,ss=c(ss[i+1],ss[i])),
-                                xprob(n1=as.numeric(occs.prop[i+1,]),n2=as.numeric(occs.prop[i,]),Jt=(10^log10J)/t,ss=NA))}}
+                                xprobm(n1=as.numeric(occs.prop[i+1,]),n2=as.numeric(occs.prop[i,]),nmeta=nmeta,J=10**log10Jm[1],m=10**log10Jm[2],t=t,ss=c(ss[i+1],ss[i])),
+                                xprobm(n1=as.numeric(occs.prop[i+1,]),n2=as.numeric(occs.prop[i,]),nmeta=nmeta,J=10**log10Jm[1],m=10**log10Jm[2],t=t,ss=NA))}}
   return(loglik)}

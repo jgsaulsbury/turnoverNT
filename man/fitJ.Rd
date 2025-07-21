@@ -27,7 +27,7 @@ community (TRUE) or instead represents true species abundances (FALSE).}
 \item{generationtime}{time between generations, in years.}
 
 \item{CI}{boolean indicating whether or not to calculate a confidence interval
-on the maximum-likelihood estimate of J.}
+on the maximum-likelihood estimate of J. Uses function CIfunc_J.}
 
 \item{searchinterval}{consider values of log10J within this interval.}
 }
@@ -35,7 +35,7 @@ on the maximum-likelihood estimate of J.}
 a list containing "loglik", "J", and (optionally) "CI"
 }
 \description{
-Uses optim() to fit the J parameter in Hubbell's neutral theory to a dataset.
+Uses optimize() to fit the J parameter in Hubbell's neutral theory to a dataset.
 Optionally, outputs a confidence interval.
 }
 \details{
