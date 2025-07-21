@@ -2,14 +2,13 @@
 % Please edit documentation in R/xxprobm.R
 \name{xxprobm}
 \alias{xxprobm}
-\title{Probability of a set of transitions under neutral theory}
+\title{Probability of a set of transitions under neutral theory with migration}
 \usage{
 xxprobm(log10Jm, occs, ages, sampled = TRUE, generationtime = 1)
 }
 \arguments{
 \item{log10Jm}{a 2-length vector containing log10 J (community size) and log10 m
-(migration rate). Easier for fitJm() to optimize in log space. optim() wants a
-single vector of params.}
+(migration rate).}
 
 \item{occs}{matrix of the number of observations in each species at each time.
 One column for each species, one row for each time slice. Time goes from oldest
@@ -28,8 +27,8 @@ loglik value.
 }
 \description{
 Gives the likelihood of a community composition timeseries under Hubbell's
-neutral theory for a given value of J. Unlike its helper function xprob,
-xxprob takes data in the form of the number of individuals observed in each
+neutral theory for given values of J and m. Unlike its helper function xprobm,
+xxprobm takes data in the form of the number of individuals observed in each
 species, rather than relative abundances. Can take either a single dataset or
 a list of them.
 }

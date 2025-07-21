@@ -1,9 +1,9 @@
-#' Probability of a set of transitions under neutral theory
+#' Probability of a set of transitions under neutral theory with migration
 #'
 #' @description
 #' Gives the likelihood of a community composition timeseries under Hubbell's
-#' neutral theory for a given value of J. Unlike its helper function xprob,
-#' xxprob takes data in the form of the number of individuals observed in each
+#' neutral theory for given values of J and m. Unlike its helper function xprobm,
+#' xxprobm takes data in the form of the number of individuals observed in each
 #' species, rather than relative abundances. Can take either a single dataset or
 #' a list of them.
 #'
@@ -13,8 +13,7 @@
 #' generations separate each adjacent pair of time slices. Default is 1 year.
 #'
 #' @param log10Jm a 2-length vector containing log10 J (community size) and log10 m
-#' (migration rate). Easier for fitJm() to optimize in log space. optim() wants a
-#' single vector of params.
+#' (migration rate).
 #' @param occs matrix of the number of observations in each species at each time.
 #' One column for each species, one row for each time slice. Time goes from oldest
 #' at the bottom to youngest at the top.
