@@ -25,11 +25,10 @@
 #' @examples
 #' set.seed(10)
 #' sim <- simNT(c(1000,1000,1000,1000),ts=seq(0,2000,50),m=0.001,ss=1000) #simulate under neutral theory with migration
-#' fitJm(occs=sim$simulation,ages=sim$times)
-fitJm <- function(occs,ages,sampled=TRUE,generationtime=1,lowerbounds=c(1,-30),upperbounds=c(10,-1)){
+#' fitJm(occs=sim$simulation,ages=sim$times,metacommunity=rep(0.25,4))
+fitJm <- function(occs,ages,sampled=TRUE,metacommunity=NA,generationtime=1){
   if(dim(occs)[1] != length(ages)){stop("'ages' must have length equal to the number of rows of 'occs'")}
-  op <- stats::optim(par=c(5,-3),fn=xxprobm,method="L-BFGS-B",lower=lowerbounds,
-                     upper=upperbounds,control=list(fnscale=-1),occs=occs,ages=ages,
-                     sampled=sampled,generationtime=generationtime)
+  op <- stats::optim(par=c(5,-3),fn=xxprobm,method="Nelder-Mead",control=list(fnscale=-1),occs=occs,ages=ages,
+                     sampled=sampled,metacommunity=metacommunity,generationtime=generationtime)
   out <- list("loglik"=op$value,"J"=10^op$par[1],"m"=10^op$par[2])
   return(out)}

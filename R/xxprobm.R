@@ -21,6 +21,9 @@
 #' oldest to youngest.
 #' @param sampled boolean indicating whether occs represents a sampled
 #' community (TRUE) or instead represents true species abundances (FALSE).
+#' @param metacommunity relative abundances of each species in the metacommunity,
+#' given in the same order as in occs. If none given, takes the average species
+#' abundances across the timeseries as a guess.
 #' @param generationtime time between generations, in years.
 #'
 #' @returns loglik value.
@@ -36,11 +39,12 @@
 #' ms <- seq(-7,-1,0.1) #get likelihood for these values of m
 #' plot(10**ms,comprehenr::to_vec(for(i in ms) xxprobm(log10Jm = c(log10(4000),i),occs=sim$simulation,ages=sim$times,sampled=TRUE)),ylim=c(100,300),xlab="m",ylab="loglik",type='l',log='x')
 #' lines(c(0.005,0.005),c(0,400),lty='dashed') #true m
-xxprobm <- function(log10Jm,occs,ages,sampled=TRUE,generationtime=1){
+xxprobm <- function(log10Jm,occs,ages,sampled=TRUE,metacommunity=NA,generationtime=1){
   if(!is.list(ages)){ #if there's just one timeseries
     occs <- list(occs) #make it the only member of a list
     ages <- list(ages)} #and do the same to ages
   if(length(occs)!=length(ages)){stop("number of occurrence matrices and ages vectors do not match")}
+  if(log10Jm[2]>0|10**log10Jm[1]==0){return(-Inf)} #this allows us to use optim() without constraining param vals
   loglik <- 0
   for(i in length(occs)){ #for each member of the list of occurrence tables
     occ <- occs[[i]]
@@ -48,7 +52,9 @@ xxprobm <- function(log10Jm,occs,ages,sampled=TRUE,generationtime=1){
     if(dim(occ)[1] != length(age)){stop(paste("age vector",i,"does not match number of rows in occurrence matrix",i))}
     ss <- rowSums(occ)
     occs.prop <-  occ/ss #from occurrences to proportional abundance
-    nmeta <- colMeans(occs.prop) #average local abundance as a guess of metacommunity abundance
+    if(any(!is.na(metacommunity))){ #if metacommunity composition given...
+      nmeta <- metacommunity} else{
+      nmeta <- occs.prop[length(ss),]} #local abundance in the first timestep as a guess at metacommunity comp
     for(i in rev(seq(dim(occ)[1]-1))){ #for every transition (from oldest to youngest)
       t = abs(age[i+1]-age[i])/generationtime
       loglik <- loglik + ifelse(sampled,
