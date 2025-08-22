@@ -35,7 +35,7 @@ xprob <- function(n1,n2,Jt,ss=NA){
   if(!any(is.na(ss))){ #if ss given...
     if(length(ss)==1){ss <- rep(ss,2)} #duplicate if a single value given
     sizes <- c(ss,Jt)
-    size <- min(sizes) / sum(min(sizes)/sizes)
+    size <- 1/sum(1/sizes)
   } else {
     size <- Jt}
   order <- rev(order(n1)) #sort by abundance of n1
